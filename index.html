@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>XRP Issuing Gateways</title>
+    <!-- <link rel="stylesheet" href="https://xrpl.org/assets/css/devportal2020.css" /> -->
+    <link
+      rel="stylesheet"
+      href="vendor/materialize/0.100.2/css/materialize.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+   
+
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/apple-icon-57x57.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/apple-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/apple-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/apple-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/android-icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="manifest"
+      href="vendor/ripple/XRP-Symbol-Kit/favicon/manifest.json"
+    />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+  </head>
+
+  <body>
+    <div class="navbar-fixed">
+      <nav class="ripple-text-blue" role="navigation">
+        <div class="nav-wrapper container">
+          <a id="logo-container" href="#" class="brand-logo">
+            <img
+              src="vendor/ripple/XRP-Symbol-Kit/text-mark/xrp-text-mark-white.svg"
+            />XRP Issuing Gateways
+            <span class="tag-beta red-text">beta</span>
+            <!-- <img src="vendor/ripple_logos/ripple_logo_small.png" />XRP Paper Wallet
+                    <span class="red-text">beta</span> -->
+          </a>
+        </div>
+      </nav>
+    </div>
+    <div id="index-banner" class="parallax-container">
+      <div class="section no-pad-bot">
+        <div class="container">
+          <br />
+          <br />
+          <h1 class="header">XRP Issuing Gateways</h1>
+          <div class="row">
+            <h5 class="header col s12 light">
+              How many drops do you have? How many transactions can you do?
+            </h5>
+          </div>
+          <!-- <div class="row center">
+                    <a href="#" id="generate-paper-wallet" class="btn-large waves-effect waves-light ripple-blue">Generate a new wallet</a>
+                </div> -->
+          <br />
+          <br />
+        </div>
+      </div>
+      <div class="parallax">
+        <img src="img/background1.jpg" alt="" />
+      </div>
+    </div>
+
+    <!-- hot/warm/cold model -->
+    <div class="container">
+      <div class="section">
+        <!--   Icon Section   -->
+        <div class="row">
+          <div class="col s12 center">
+            <h3>Issuing gateways do not need to accumulate or exchange XRP.</h3>
+            <h4 class="ripple-text-blue">
+              They must only hold a small balance of XRP to meet the reserve
+              requirements and pay the cost of sending transactions through the
+              network.
+            </h4>
+          </div>
+
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center green-text">
+                <i class="fas fa-balance-scale"></i>
+              </h2>
+              <h5 class="center">Issuing Stablecoins</h5>
+
+              <p class="light">
+                Built for payments, XRPL can also be used to
+                <a
+                  class="white-text"
+                  href="https://ripple.com/insights/issuing-stablecoins-on-the-xrp-ledger/"
+                  target="_blank"
+                  >issue stablecoins</a
+                >
+                using fungible token functionality.
+              </p>
+            </div>
+          </div>
+
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center pink-text">
+                <i class="fas fa-piggy-bank"></i>
+              </h2>
+              <h5 class="center"><s>HODLing</s> holding XRP</h5>
+
+              <p class="light">
+                The XRP equivalent of $10 USD should be enough for at least one
+                year of transaction costs for a busy gateway.
+              </p>
+            </div>
+          </div>
+
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center yellow-text">
+                <i class="fas fa-search-dollar"></i>
+              </h2>
+              <h5 class="center">Transaction Cost</h5>
+
+              <p class="light">
+                The current minimum transaction cost required by the network for
+                a standard transaction is :
+                <span id="current-transaction-cost" class="muted-text"
+                  ><i class="fas fa-spinner fa-spin"></i
+                ></span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <p></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- General informations about XRP Ledger Gateway -->
+    <div class="container">
+      <div class="section">
+        <div class="row">
+          <div class="col s12 center">
+            <h3>Become an XRP Ledger Gateway</h3>
+          </div>
+        </div>
+
+        <!-- Section -->
+        <div class="row">
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center red-text">
+                <i class="fas fa-sync"></i>
+              </h2>
+              <h5 class="center">Liquidity and Currency Exchange</h5>
+
+              <p class="light">
+                The XRP Ledger contains a
+                <a
+                  href="https://xrpl.org/decentralized-exchange.html"
+                  target="_blank"
+                  >decentralized asset exchange</a
+                >, where any user can place and fulfill bids to exchange XRP and
+                issued currencies in any combination.
+              </p>
+            </div>
+          </div>
+          
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center green-text">
+                <i class="fas fa-handshake"></i>
+              </h2>
+              <h5 class="center">Trust Lines</h5>
+
+              <p class="light">
+                The XRP Ledger has a system of directional accounting
+                relationships, called trust lines, to make sure that users only
+                hold issued currencies from counterparties they trust.
+              </p>
+            </div>
+          </div>
+
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center blue-text">
+                <i class="fas fa-money-bill"></i>
+              </h2>
+              <h5 class="center">Issued Currencies</h5>
+
+              <p class="light">
+                All currencies other
+                than XRP can be represented in the XRP Ledger as <a
+                href="https://xrpl.org/issued-currencies.html"
+                target="_blank"
+                >issued
+                currencies</a>. These digital assets (sometimes called "IOUs") are
+                tracked in accounting relationships, called "trust lines,"
+                between addresses.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section -->
+        <div class="row">
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center blue-text">
+                <i class="fas fa-globe"></i>
+              </h2>
+              <h5 class="center">
+                Independent node verification networks (INVNs)
+              </h5>
+
+              <p class="light">
+                <a
+                  href="https://xrpl.org/run-rippled-as-a-validator.html"
+                  target="_blank"
+                  >Run rippled as a Validator</a
+                >
+                to enable a network that can perform bank-permissible functions,
+                such as payment activities.
+              </p>
+            </div>
+          </div>
+
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center blue-text">
+                <img
+                  src="vendor/ripple/XRP-Symbol-Kit/text-mark/xrp-text-mark-white.svg"
+                  style="width: 100px"
+                />
+              </h2>
+              <h5 class="center">
+                The native cryptocurrency of the XRP Ledger
+              </h5>
+
+              <p class="light">
+                Order book
+                <a
+                  href="https://xrpl.org/blog/2014/introducing-offer-autobridging.html"
+                  target="_blank"
+                  >auto-bridging</a
+                >
+                uses XRP to deepen liquidity in the decentralized exchange by
+                merging order books of two issued currencies with XRP order
+                books to create synthetic combined order books.
+              </p>
+            </div>
+          </div>
+
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center red-text">
+                <i class="fas fa-sync"></i>
+              </h2>
+              <h5 class="center">? title</h5>
+
+              <p class="light">dunno test 123</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<!-- Top Currencies -->
+<div class="container">
+  <div class="section">
+    <div class="row">
+      <div class="col s12 center">
+        <h3>Top Currencies</h3>
+        <div id="top-currencies">
+          <ul id="top-currencies-list">
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Footer -->
+    <footer class="page-footer ripple-blue">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">About</h5>
+            <p class="">
+              The goal of this tool is to democratize the
+              <a
+                class="ripple-text-gray"
+                href="https://xrpl.org/"
+                target="_blank"
+                >XRP Ledger (XRPL)</a
+              >. This project is not affiliated to
+              <a
+                class="ripple-text-gray"
+                href="https://ripple.com"
+                target="_blank"
+                >Ripple</a
+              >.
+            </p>
+          </div>
+          <div class="col l3 s12">
+            <h5 class="white-text">Links</h5>
+            <ul>
+              <li>
+                <a
+                  class="white-text"
+                  href="https://github.com/lgcarrier/xrppaperwallet"
+                  target="_blank"
+                  >XRP Paper Wallet GitHub</a
+                >
+              </li>
+              <li>
+                <a
+                  class="white-text"
+                  href="https://github.com/ripple/ripple-lib"
+                  target="_blank"
+                  >ripple-lib (RippleAPI) GitHub</a
+                >
+              </li>
+              <li>
+                <a class="white-text" href="https://xrpl.org/" target="_blank"
+                  >XRP Ledger Project</a
+                >
+              </li>
+              <li>
+                <a
+                  class="white-text"
+                  href="https://github.com/xrpsymbol/xrpsymbol.github.io"
+                  target="_blank"
+                  >XRP Symbol</a
+                >
+              </li>
+              <li>
+                <a class="white-text" href="https://ripplex.io/" target="_blank"
+                  >RippleX</a
+                >
+              </li>
+              <li>
+                <a
+                  class="white-text"
+                  href="https://ripple.com/insights/issuing-stablecoins-on-the-xrp-ledger/"
+                  target="_blank"
+                  >Issuing Stablecoins on the XRP Ledger</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col l3 s12">
+            <script
+              type="text/javascript"
+              src="https://files.coinmarketcap.com/static/widget/currency.js"
+            ></script>
+            <div
+              class="coinmarketcap-currency-widget"
+              data-currencyid="52"
+              data-base="USD"
+              data-secondary="BTC"
+              data-ticker="false"
+              data-rank="true"
+              data-marketcap="true"
+              data-volume="true"
+              data-stats="USD"
+              data-statsticker="false"
+            ></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Disclaimer</h5>
+            <p class="grey-text text-lighten-4">
+              Use at your own risk. Not responsible if anything goes wrong. Do
+              your due diligence, you can review the code on GitHub.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+          Made by
+          <a
+            class="ripple-text-gray"
+            href="https://github.com/lgcarrier"
+            target="_blank"
+            >Louis-Guillaume Carrier-Bédard</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts-->
+
+    <!-- Font Awesome -->
+    <!-- <script defer src="vendor/fontawesome/5.0.2/js/all.js"></script> -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+      integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+      crossorigin="anonymous"
+    />
+
+    <!-- Ripple API -->
+    <script src="https://unpkg.com/lodash@4.17.20/lodash.min.js"></script>
+    <script src="https://unpkg.com/ripple-lib@1.9.0/build/ripple-latest-min.js"></script>
+
+    <!-- UI Materialize -->
+    <script
+      type="text/javascript"
+      src="vendor/jquery/3.2.1/jquery-3.2.1.min.js"
+    ></script>
+    <script src="vendor/materialize/0.100.2/js/materialize.min.js"></script>
+
+    <!-- qrcode -->
+    <script defer src="vendor/qrcodejs/qrcode.min.js"></script>
+
+    <!-- init custo -->
+    <script src="js/init.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-4094498-8"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-4094498-8");
+    </script>
+  </body>
+</html>
