@@ -6,13 +6,10 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>XRP Issuing Gateways</title>
-    <!-- <link rel="stylesheet" href="https://xrpl.org/assets/css/devportal2020.css" /> -->
-    <link
-      rel="stylesheet"
-      href="vendor/materialize/0.100.2/css/materialize.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <link rel="stylesheet" href="css/style.css" />
-   
 
     <link
       rel="apple-touch-icon"
@@ -130,7 +127,7 @@
       </div>
     </div>
 
-    <!-- hot/warm/cold model -->
+    <!--  -->
     <div class="container">
       <div class="section">
         <!--   Icon Section   -->
@@ -215,9 +212,54 @@
 
         <!-- Section -->
         <div class="row">
+          <!-- Issued Currencies -->
           <div class="col s12 m4">
             <div class="icon-block">
-              <h2 class="center red-text">
+              <h2 class="center yellow-text">
+                <i class="fas fa-money-bill"></i>
+              </h2>
+              <h5 class="center">Issued Currencies</h5>
+
+              <p class="light">
+                All currencies other than XRP can be represented in the XRP
+                Ledger as
+                <a
+                  href="https://xrpl.org/issued-currencies.html"
+                  target="_blank"
+                  >issued currencies</a
+                >. These digital assets (sometimes called "IOUs") are typically
+                considered as liabilities from one perspective and assets from
+                the other, so the balance of a trust line is negative or
+                positive depending on which side you view it from.
+              </p>
+            </div>
+          </div>
+
+          <!-- Trust Lines -->
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center green-text">
+                <i class="fas fa-handshake"></i>
+              </h2>
+              <h5 class="center">Trust Lines</h5>
+
+              <p class="light">
+                The XRP Ledger has a system of directional accounting
+                relationships, called
+                <a
+                  href="https://xrpl.org/trust-lines-and-issuing.html"
+                  target="_blank"
+                  >trust lines</a
+                >, to make sure that users only hold issued currencies from
+                counterparties they trust.
+              </p>
+            </div>
+          </div>
+
+          <!-- Liquidity and Currency Exchange -->
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center blue-text">
                 <i class="fas fa-sync"></i>
               </h2>
               <h5 class="center">Liquidity and Currency Exchange</h5>
@@ -233,66 +275,11 @@
               </p>
             </div>
           </div>
-          
-          <div class="col s12 m4">
-            <div class="icon-block">
-              <h2 class="center green-text">
-                <i class="fas fa-handshake"></i>
-              </h2>
-              <h5 class="center">Trust Lines</h5>
-
-              <p class="light">
-                The XRP Ledger has a system of directional accounting
-                relationships, called trust lines, to make sure that users only
-                hold issued currencies from counterparties they trust.
-              </p>
-            </div>
-          </div>
-
-          <div class="col s12 m4">
-            <div class="icon-block">
-              <h2 class="center blue-text">
-                <i class="fas fa-money-bill"></i>
-              </h2>
-              <h5 class="center">Issued Currencies</h5>
-
-              <p class="light">
-                All currencies other
-                than XRP can be represented in the XRP Ledger as <a
-                href="https://xrpl.org/issued-currencies.html"
-                target="_blank"
-                >issued
-                currencies</a>. These digital assets (sometimes called "IOUs") are
-                tracked in accounting relationships, called "trust lines,"
-                between addresses.
-              </p>
-            </div>
-          </div>
         </div>
 
         <!-- Section -->
         <div class="row">
-          <div class="col s12 m4">
-            <div class="icon-block">
-              <h2 class="center blue-text">
-                <i class="fas fa-globe"></i>
-              </h2>
-              <h5 class="center">
-                Independent node verification networks (INVNs)
-              </h5>
-
-              <p class="light">
-                <a
-                  href="https://xrpl.org/run-rippled-as-a-validator.html"
-                  target="_blank"
-                  >Run rippled as a Validator</a
-                >
-                to enable a network that can perform bank-permissible functions,
-                such as payment activities.
-              </p>
-            </div>
-          </div>
-
+          <!-- XRP -->
           <div class="col s12 m4">
             <div class="icon-block">
               <h2 class="center blue-text">
@@ -319,12 +306,35 @@
             </div>
           </div>
 
+          <!-- Independent node verification networks (INVNs) -->
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center black-text">
+                <i class="fas fa-globe"></i>
+              </h2>
+              <h5 class="center">
+                Independent node verification networks (INVNs)
+              </h5>
+
+              <p class="light">
+                <a
+                  href="https://xrpl.org/run-rippled-as-a-validator.html"
+                  target="_blank"
+                  >Run rippled as a Validator</a
+                >
+                to enable a network that can perform bank-permissible functions,
+                such as payment activities.
+              </p>
+            </div>
+          </div>
+
+          <!-- Non Fungible Tokens -->
           <div class="col s12 m4">
             <div class="icon-block">
               <h2 class="center red-text">
                 <i class="fas fa-sync"></i>
               </h2>
-              <h5 class="center">? title</h5>
+              <h5 class="center">Non Fungible Tokens</h5>
 
               <p class="light">dunno test 123</p>
             </div>
@@ -333,22 +343,19 @@
       </div>
     </div>
 
-
-<!-- Top Currencies -->
-<div class="container">
-  <div class="section">
-    <div class="row">
-      <div class="col s12 center">
-        <h3>Top Currencies</h3>
-        <div id="top-currencies">
-          <ul id="top-currencies-list">
-          
-          </ul>
+    <!-- Top Currencies -->
+    <div class="container">
+      <div class="section">
+        <div class="row">
+          <div class="col s12 center">
+            <h3>Top Currencies</h3>
+            <div id="top-currencies">
+              <ul id="top-currencies-list" class="collection"></ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
     <!-- Footer -->
     <footer class="page-footer ripple-blue">
@@ -465,7 +472,6 @@
     <!-- Scripts-->
 
     <!-- Font Awesome -->
-    <!-- <script defer src="vendor/fontawesome/5.0.2/js/all.js"></script> -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
@@ -482,7 +488,7 @@
       type="text/javascript"
       src="vendor/jquery/3.2.1/jquery-3.2.1.min.js"
     ></script>
-    <script src="vendor/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <!-- qrcode -->
     <script defer src="vendor/qrcodejs/qrcode.min.js"></script>

@@ -168,11 +168,15 @@ footer.page-footer {
 
 body,
 nav {
-  color: #fff;
+  /* color: #fff; */
   background: #222;
 }
 
-.section p {
+.container .section h3, .container .section h5 {
+  color: #fff;
+}
+
+.section .row .col p.light {
   color: rgba(255, 255, 255, 0.6);
   font-size: 17px !important;
 }
@@ -221,4 +225,12 @@ table {
 
 .card .card-title {
   font-size: 20px;
+}
+
+.collection .collection-item.avatar {
+  text-align: left;
+}
+
+.collection {
+  border: 0;
 }

@@ -25,6 +25,8 @@ function printWallet(side) {
     'new': ''
   };
 
+  config.xrplCurrentTransactionCost = undefined;
+
   /**
    * set current account using an hardcoded
    */
@@ -87,7 +89,7 @@ function printWallet(side) {
    * init the visual theme
    */
   function initTheme() {
-    $('.button-collapse').sideNav();
+    // $('.button-collapse').sideNav();
     $('.parallax').parallax();
   }
 
@@ -100,13 +102,21 @@ function printWallet(side) {
   function updateCurrentTransactionCost() {
     api.connect().then(() => {
       api.getFee().then(fee => {
-        $('#current-transaction-cost').text(fee + ' XRP');
+        config.xrplCurrentTransactionCost = fee;
+        $('#current-transaction-cost').text(fee + ` XRP (${api.xrpToDrops(fee)} drops)`);
       });
     }).then(() => {
       // return api.disconnect();
     }).then(() => {
       // console.log('done and disconnected.');
     }).catch(console.error);
+  }
+
+  function thousands_separators(num)
+  {
+    var num_parts = num.toString().split(".");
+    num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return num_parts.join(".");
   }
 
   function printCurrencyIssuerAccountInfoSettings(currency, pos) {
@@ -128,6 +138,8 @@ function printWallet(side) {
       console.log(pos+1, currencyIssuerAccountInfoSettings);
       var topCurrenciesListRoot = $('#top-currencies-list');
 
+      // var blackListedIssuers = [];
+
       $.get("https://data.ripple.com/v2/currencies/"+currency.currency+".svg",'',null,'text').then((svg) => {
       // var svgcontainer = document.createElement('div');
         // svgcontainer.innerHTML = svg;
@@ -135,24 +147,16 @@ function printWallet(side) {
 
         // topCurrenciesListRoot.append(svgcontainer.innerHTML);
         topCurrenciesListRoot.append(
-          `<li>
-            <div class="row">
-              <div class="col s12 m6">
-                <div class="card blue-grey darken-1">
-                  <div class="card-content white-text">
-                    <span class="card-title">#${pos+1} ${currency.currency} <span class="currency-symbol">${svg}</span> by ${currencyIssuerAccountInfoSettings.settings.domain}</span>
-                    <p>${currency.issuer}</p>
-                    <!-- <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="fa fa-plus"></i></a> -->
-                  </div>
-                  ${currencyIssuerAccountInfoSettings.info.xrpBalance} XRP
-                  <div class="card-action">
-                    <a href="https://bithomp.com/explorer/${currency.issuer}">bithomp</a>
-                    <a href="https://xrpscan.com/account/${currency.issuer}">xrpscan</a>
-                    <a href="https://api.xrpscan.com/api/v1/flare/snapshot/${currency.issuer}">sparkClaim</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+          `<li class="collection-item avatar">
+            <i class="material-icons circle">account_balance</i>
+            <span class="title">#${pos+1} ${currency.currency} <span class="currency-symbol">${svg}</span> by ${currencyIssuerAccountInfoSettings.settings.domain || 'an unknown issuer'}</span>
+            <p>
+            ${currencyIssuerAccountInfoSettings.info.xrpBalance} XRP (${api.xrpToDrops(currencyIssuerAccountInfoSettings.info.xrpBalance)} drops <i class="fas fa-arrow-right"></i> potential transactions ${thousands_separators(currencyIssuerAccountInfoSettings.info.xrpBalance/config.xrplCurrentTransactionCost)})
+                  <br/>
+              <a href="https://bithomp.com/explorer/${currency.issuer}">bithomp</a>
+              <a href="https://xrpscan.com/account/${currency.issuer}">xrpscan</a>
+              <a href="https://api.xrpscan.com/api/v1/flare/snapshot/${currency.issuer}">sparkClaim</a>
+            </p>
           </li>
           `
         );
