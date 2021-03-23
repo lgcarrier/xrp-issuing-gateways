@@ -27,6 +27,8 @@ function printWallet(side) {
 
   config.xrplCurrentTransactionCost = undefined;
 
+  config.baseCurrencySvg = {};
+
   /**
    * set current account using an hardcoded
    */
@@ -112,11 +114,88 @@ function printWallet(side) {
     }).catch(console.error);
   }
 
-  function thousands_separators(num)
-  {
+  function thousands_separators(num) {
     var num_parts = num.toString().split(".");
     num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return num_parts.join(".");
+  }
+
+  function appendTopMarketsListRoot(marketInfo, pos) {
+    var topMarketsListRoot = $('#top-markets-list');
+
+    topMarketsListRoot.append(
+      `<li class="collection-item avatar">
+        <i class="material-icons circle">account_balance</i>
+        <span class="title">${thousands_separators(Math.round(marketInfo.market.avg_base_volume * 100)/100)} ${marketInfo.market.base_currency} <span class="currency-symbol">${config.baseCurrencySvg[marketInfo.currencySvg] || ''}</span> by ${marketInfo.settings.domain || 'an unknown issuer'}</span>
+        <p>
+        Wallet : ${thousands_separators(Math.round(marketInfo.info.xrpBalance))} XRP (${thousands_separators(api.xrpToDrops(marketInfo.info.xrpBalance))} drops <i class="fas fa-arrow-right"></i> ${thousands_separators(Math.round(marketInfo.info.xrpBalance / config.xrplCurrentTransactionCost))} transactions)
+              <br/>
+          <a href="https://bithomp.com/explorer/${marketInfo.market.base_issuer}">bithomp</a>
+          <a href="https://xrpscan.com/account/${marketInfo.market.base_issuer}">xrpscan</a>
+          <a href="https://api.xrpscan.com/api/v1/flare/snapshot/${marketInfo.market.base_issuer}">sparkClaim</a>
+        </p>
+        <span class="secondary-content"># ${pos}</span>
+      </li>
+      `
+    );
+
+  }
+
+  function printMarket(market, pos) {
+    var marketInfo = {
+      market: market
+    };
+
+    api.connect().then(() => {
+      return api.getAccountInfo(marketInfo.market.base_issuer);
+    }).then(info => {
+      marketInfo.info = info;
+      return api.getSettings(marketInfo.market.base_issuer);
+    }).then((settings) => {
+      marketInfo.settings = settings;
+      return api.getAccountObjects(marketInfo.market.base_issuer);
+    }).then((objects) => {
+      marketInfo.objects = objects;
+    }).then(() => {
+      marketInfo.currencySvg = market.base_currency + ".svg";
+
+      if (!config.baseCurrencySvg[marketInfo.currencySvg]) {
+        $.get({
+          url: "https://data.ripple.com/v2/currencies/" + marketInfo.currencySvg, 
+          dataType: 'text', 
+          async: false
+        }).then((svg) => {
+          config.baseCurrencySvg[marketInfo.currencySvg] = svg;
+        });
+      }
+    }).then(() => {
+      //return api.disconnect();
+      console.log(pos + 1, marketInfo);
+      appendTopMarketsListRoot(marketInfo, pos + 1);
+    }).then(() => {
+      // console.log('done and disconnected.');
+    }).catch(console.error);
+
+  }
+
+  function appendTopCurrenciesListRoot(currencyIssuerAccountInfoSettings, pos) {
+    var topCurrenciesListRoot = $('#top-currencies-list');
+
+    topCurrenciesListRoot.append(
+      `<li class="collection-item avatar">
+        <i class="material-icons circle">account_balance</i>
+        <span class="title">${currencyIssuerAccountInfoSettings.currency.currency} <span class="currency-symbol">${config.baseCurrencySvg[currencyIssuerAccountInfoSettings.currencySvg] || ''}</span> by ${currencyIssuerAccountInfoSettings.settings.domain || 'an unknown issuer'}</span>
+        <p>
+        Wallet : ${thousands_separators(Math.round(currencyIssuerAccountInfoSettings.info.xrpBalance))} XRP (${thousands_separators(api.xrpToDrops(currencyIssuerAccountInfoSettings.info.xrpBalance))} drops <i class="fas fa-arrow-right"></i> ${thousands_separators(Math.round(currencyIssuerAccountInfoSettings.info.xrpBalance / config.xrplCurrentTransactionCost))} transactions)
+              <br/>
+          <a href="https://bithomp.com/explorer/${currencyIssuerAccountInfoSettings.currency.issuer}">bithomp</a>
+          <a href="https://xrpscan.com/account/${currencyIssuerAccountInfoSettings.currency.issuer}">xrpscan</a>
+          <a href="https://api.xrpscan.com/api/v1/flare/snapshot/${currencyIssuerAccountInfoSettings.currency.issuer}">sparkClaim</a>
+        </p>
+        <span class="secondary-content"># ${pos}</span>
+      </li>
+      `
+    );
   }
 
   function printCurrencyIssuerAccountInfoSettings(currency, pos) {
@@ -135,43 +214,36 @@ function printWallet(side) {
     }).then((objects) => {
       currencyIssuerAccountInfoSettings.objects = objects;
     }).then(() => {
-      console.log(pos+1, currencyIssuerAccountInfoSettings);
-      var topCurrenciesListRoot = $('#top-currencies-list');
-
       // var blackListedIssuers = [];
+      currencyIssuerAccountInfoSettings.currencySvg = currency.currency + ".svg";
 
-      $.get("https://data.ripple.com/v2/currencies/"+currency.currency+".svg",'',null,'text').then((svg) => {
-      // var svgcontainer = document.createElement('div');
-        // svgcontainer.innerHTML = svg;
+      if (!config.baseCurrencySvg[currencyIssuerAccountInfoSettings.currencySvg]) {
+        $.get({
+          url: "https://data.ripple.com/v2/currencies/" + currencyIssuerAccountInfoSettings.currencySvg, 
+          dataType: 'text', 
+          async: false
+        }).then((svg) => {
+          config.baseCurrencySvg[currencyIssuerAccountInfoSettings.currencySvg] = svg;
+        });
+      }
 
-
-        // topCurrenciesListRoot.append(svgcontainer.innerHTML);
-        topCurrenciesListRoot.append(
-          `<li class="collection-item avatar">
-            <i class="material-icons circle">account_balance</i>
-            <span class="title">#${pos+1} ${currency.currency} <span class="currency-symbol">${svg}</span> by ${currencyIssuerAccountInfoSettings.settings.domain || 'an unknown issuer'}</span>
-            <p>
-            ${currencyIssuerAccountInfoSettings.info.xrpBalance} XRP (${api.xrpToDrops(currencyIssuerAccountInfoSettings.info.xrpBalance)} drops <i class="fas fa-arrow-right"></i> potential transactions ${thousands_separators(currencyIssuerAccountInfoSettings.info.xrpBalance/config.xrplCurrentTransactionCost)})
-                  <br/>
-              <a href="https://bithomp.com/explorer/${currency.issuer}">bithomp</a>
-              <a href="https://xrpscan.com/account/${currency.issuer}">xrpscan</a>
-              <a href="https://api.xrpscan.com/api/v1/flare/snapshot/${currency.issuer}">sparkClaim</a>
-            </p>
-          </li>
-          `
-        );
-      });
-
-      
     }).then(() => {
       //return api.disconnect();
+      console.log(pos + 1, currencyIssuerAccountInfoSettings);
+
+      appendTopCurrenciesListRoot(currencyIssuerAccountInfoSettings, pos + 1);
     }).then(() => {
       // console.log('done and disconnected.');
     }).catch(console.error);
   }
 
   function updateTopCurrencies() {
-    $.getJSON("https://data.ripple.com/v2/network/top_currencies/").then((a) => {
+    var date = new Date();
+    date.setDate(date.getDate() - 1);
+    var month = (date.getMonth() + 1) + '';
+    month = month.padStart(2, 0);
+
+    $.getJSON(`https://data.ripple.com/v2/network/top_currencies/${date.getFullYear()}-${month}-${date.getDate()}`).then((a) => {
       if (a.currencies) {
         a.currencies.forEach((currency, i) => {
           printCurrencyIssuerAccountInfoSettings(currency, i);
@@ -180,6 +252,22 @@ function printWallet(side) {
     });
   }
 
+  function updateTopMarkets() {
+    var date = new Date();
+    date.setDate(date.getDate() - 1); //Yesterday
+    var month = (date.getMonth() + 1) + '';
+    month = month.padStart(2, 0);
+
+    $.getJSON(`https://data.ripple.com/v2/network/top_markets/${date.getFullYear()}-${month}-${date.getDate()}`).then((a) => {
+      if (a.markets) {
+        a.markets.forEach((market, i) => {
+          printMarket(market, i);
+        });
+      }
+    });
+  }
+
+
   $(function () {
     initTheme();
     bindEvents();
@@ -187,6 +275,7 @@ function printWallet(side) {
     updateCurrentTransactionCost();
 
     updateTopCurrencies();
+    updateTopMarkets();
 
     // getAccountBalances(account);
 
