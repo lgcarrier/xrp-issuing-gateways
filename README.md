@@ -1,7 +1,7 @@
 # xrp-issuing-gateways
 
 ## Demo
-http://www.xrpissuinggateways.com/
+http://www.xrpgateways.com/
 
 ## Credits
 
