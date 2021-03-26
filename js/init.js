@@ -166,12 +166,17 @@ function printWallet(side) {
           async: false
         }).then((svg) => {
           config.baseCurrencySvg[marketInfo.currencySvg] = svg;
+          appendTopMarketsListRoot(marketInfo, pos + 1);
         });
+      }else {
+        return true;
       }
-    }).then(() => {
+    }).then((append) => {
       //return api.disconnect();
       console.log(pos + 1, marketInfo);
-      appendTopMarketsListRoot(marketInfo, pos + 1);
+      if (append){
+        appendTopMarketsListRoot(marketInfo, pos + 1);
+      }
     }).then(() => {
       // console.log('done and disconnected.');
     }).catch(console.error);
@@ -224,14 +229,19 @@ function printWallet(side) {
           async: false
         }).then((svg) => {
           config.baseCurrencySvg[currencyIssuerAccountInfoSettings.currencySvg] = svg;
+          appendTopCurrenciesListRoot(currencyIssuerAccountInfoSettings, pos + 1);
         });
       }
+      else {
+        return true;
+      }
 
-    }).then(() => {
+    }).then((append) => {
       //return api.disconnect();
       console.log(pos + 1, currencyIssuerAccountInfoSettings);
-
-      appendTopCurrenciesListRoot(currencyIssuerAccountInfoSettings, pos + 1);
+      if (append) {
+        appendTopCurrenciesListRoot(currencyIssuerAccountInfoSettings, pos + 1);
+      }
     }).then(() => {
       // console.log('done and disconnected.');
     }).catch(console.error);
