@@ -260,8 +260,14 @@ function printWallet(side) {
   }
 
   function updateTopCurrencies() {
-    $.getJSON(`https://data.ripple.com/v2/network/top_currencies/${getFormatedYesterdayDate()}`).then((a) => {
+    var yesterday = getFormatedYesterdayDate();
+    $.getJSON(`https://data.ripple.com/v2/network/top_currencies/${yesterday}`).then((a) => {
+      var topCurrenciesListRoot = $('#top-currencies-last-updated');
+      topCurrenciesListRoot.append(`Last updated on: ${yesterday}`);
+
       if (a.currencies) {
+        $('#top-currencies .fa-spinner').remove();
+
         a.currencies.forEach((currency, i) => {
           printCurrencyIssuerAccountInfoSettings(currency, i);
         });
@@ -270,8 +276,14 @@ function printWallet(side) {
   }
 
   function updateTopMarkets() {
-    $.getJSON(`https://data.ripple.com/v2/network/top_markets/${getFormatedYesterdayDate()}`).then((a) => {
+    var yesterday = getFormatedYesterdayDate();
+    $.getJSON(`https://data.ripple.com/v2/network/top_markets/${yesterday}`).then((a) => {
+      var topMarketsListRoot = $('#top-markets-last-updated');
+      topMarketsListRoot.append(`Last updated on: ${yesterday}`);
+      
       if (a.markets) {
+        $('#top-markets .fa-spinner').remove();
+        
         a.markets.forEach((market, i) => {
           printMarket(market, i);
         });
