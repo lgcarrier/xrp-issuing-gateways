@@ -247,13 +247,20 @@ function printWallet(side) {
     }).catch(console.error);
   }
 
-  function updateTopCurrencies() {
+
+  function getFormatedYesterdayDate() {
     var date = new Date();
     date.setDate(date.getDate() - 1);
     var month = (date.getMonth() + 1) + '';
     month = month.padStart(2, 0);
+    var day = date.getDate() + '';
+    day = day.padStart(2, 0);
 
-    $.getJSON(`https://data.ripple.com/v2/network/top_currencies/${date.getFullYear()}-${month}-${date.getDate()}`).then((a) => {
+    return `${date.getFullYear()}-${month}-${day}`;    
+  }
+
+  function updateTopCurrencies() {
+    $.getJSON(`https://data.ripple.com/v2/network/top_currencies/${getFormatedYesterdayDate()}`).then((a) => {
       if (a.currencies) {
         a.currencies.forEach((currency, i) => {
           printCurrencyIssuerAccountInfoSettings(currency, i);
@@ -263,12 +270,7 @@ function printWallet(side) {
   }
 
   function updateTopMarkets() {
-    var date = new Date();
-    date.setDate(date.getDate() - 1); //Yesterday
-    var month = (date.getMonth() + 1) + '';
-    month = month.padStart(2, 0);
-
-    $.getJSON(`https://data.ripple.com/v2/network/top_markets/${date.getFullYear()}-${month}-${date.getDate()}`).then((a) => {
+    $.getJSON(`https://data.ripple.com/v2/network/top_markets/${getFormatedYesterdayDate()}`).then((a) => {
       if (a.markets) {
         a.markets.forEach((market, i) => {
           printMarket(market, i);
