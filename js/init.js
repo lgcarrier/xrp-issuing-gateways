@@ -126,7 +126,7 @@ function printWallet(side) {
     topMarketsListRoot.append(
       `<li class="collection-item avatar">
         <i class="material-icons circle">account_balance</i>
-        <span class="title">${thousands_separators(Math.round(marketInfo.market.avg_base_volume * 100)/100)} ${marketInfo.market.base_currency} <span class="currency-symbol">${config.baseCurrencySvg[marketInfo.currencySvg] || ''}</span> by ${marketInfo.settings.domain || 'an unknown issuer'}</span>
+        <span class="title">${thousands_separators(Math.round(marketInfo.market.avg_base_volume * 100) / 100)} ${marketInfo.market.base_currency} <span class="currency-symbol">${config.baseCurrencySvg[marketInfo.currencySvg] || ''}</span> by ${marketInfo.settings.domain || 'an unknown issuer'}</span>
         <p>
         Wallet : ${thousands_separators(Math.round(marketInfo.info.xrpBalance))} XRP (${thousands_separators(api.xrpToDrops(marketInfo.info.xrpBalance))} drops <i class="fas fa-arrow-right"></i> ${thousands_separators(Math.round(marketInfo.info.xrpBalance / config.xrplCurrentTransactionCost))} transactions)
               <br/>
@@ -161,20 +161,20 @@ function printWallet(side) {
 
       if (!config.baseCurrencySvg[marketInfo.currencySvg]) {
         $.get({
-          url: "https://data.ripple.com/v2/currencies/" + marketInfo.currencySvg, 
-          dataType: 'text', 
+          url: "https://data.ripple.com/v2/currencies/" + marketInfo.currencySvg,
+          dataType: 'text',
           async: false
         }).then((svg) => {
           config.baseCurrencySvg[marketInfo.currencySvg] = svg;
           appendTopMarketsListRoot(marketInfo, pos + 1);
         });
-      }else {
+      } else {
         return true;
       }
     }).then((append) => {
       //return api.disconnect();
       console.log(pos + 1, marketInfo);
-      if (append){
+      if (append) {
         appendTopMarketsListRoot(marketInfo, pos + 1);
       }
     }).then(() => {
@@ -224,8 +224,8 @@ function printWallet(side) {
 
       if (!config.baseCurrencySvg[currencyIssuerAccountInfoSettings.currencySvg]) {
         $.get({
-          url: "https://data.ripple.com/v2/currencies/" + currencyIssuerAccountInfoSettings.currencySvg, 
-          dataType: 'text', 
+          url: "https://data.ripple.com/v2/currencies/" + currencyIssuerAccountInfoSettings.currencySvg,
+          dataType: 'text',
           async: false
         }).then((svg) => {
           config.baseCurrencySvg[currencyIssuerAccountInfoSettings.currencySvg] = svg;
@@ -247,50 +247,68 @@ function printWallet(side) {
     }).catch(console.error);
   }
 
-
-  function getFormatedYesterdayDate() {
-    var date = new Date();
-    date.setDate(date.getDate() - 1);
+  function getFormatedDate(date) {
     var month = (date.getMonth() + 1) + '';
     month = month.padStart(2, 0);
     var day = date.getDate() + '';
     day = day.padStart(2, 0);
 
-    return `${date.getFullYear()}-${month}-${day}`;    
+    return `${date.getFullYear()}-${month}-${day}`;
   }
 
-  function updateTopCurrencies() {
-    var yesterday = getFormatedYesterdayDate();
-    $.getJSON(`https://data.ripple.com/v2/network/top_currencies/${yesterday}`).then((a) => {
-      var topCurrenciesListRoot = $('#top-currencies-last-updated');
-      topCurrenciesListRoot.append(`Last updated on: ${yesterday}`);
+  function updateTopCurrenciesList(currenciesList, formatedDate) {
+    var topCurrenciesListRoot = $('#top-currencies-last-updated');
+    topCurrenciesListRoot.append(`Last updated on: ${formatedDate}`);
 
-      if (a.currencies) {
-        $('#top-currencies .fa-spinner').remove();
+    if (currenciesList.currencies) {
+      currenciesList.currencies.forEach((currency, i) => {
+        printCurrencyIssuerAccountInfoSettings(currency, i);
+      });
 
-        a.currencies.forEach((currency, i) => {
-          printCurrencyIssuerAccountInfoSettings(currency, i);
-        });
-      }
-    });
+      $('#top-currencies .fa-spinner').remove();
+    }
+
   }
 
-  function updateTopMarkets() {
-    var yesterday = getFormatedYesterdayDate();
-    $.getJSON(`https://data.ripple.com/v2/network/top_markets/${yesterday}`).then((a) => {
-      var topMarketsListRoot = $('#top-markets-last-updated');
-      topMarketsListRoot.append(`Last updated on: ${yesterday}`);
+  function updateTopCurrencies(date) {
+    var formatedDate = getFormatedDate(date);
+
+    $.getJSON(`https://data.ripple.com/v2/network/top_currencies/${formatedDate}`).then((currenciesList) => {
       
-      if (a.markets) {
-        $('#top-markets .fa-spinner').remove();
-        
-        a.markets.forEach((market, i) => {
-          printMarket(market, i);
-        });
+      if (currenciesList.count>0) {
+        updateTopCurrenciesList(currenciesList, date);
+      } else {
+        date.setDate(date.getDate() - 1);
+        updateTopCurrencies(date)
       }
     });
   }
 
+  function updateTopMarketsList(marketsList, formatedDate) {
+    var topMarketsListRoot = $('#top-markets-last-updated');
+    topMarketsListRoot.append(`Last updated on: ${formatedDate}`);
+
+    if (marketsList.markets) {
+      marketsList.markets.forEach((market, i) => {
+        printMarket(market, i);
+      });
+
+      $('#top-markets .fa-spinner').remove();
+    }
+
+  }
+
+  function updateTopMarkets(date) {
+    var formatedDate = getFormatedDate(date);
+    $.getJSON(`https://data.ripple.com/v2/network/top_markets/${formatedDate}`).then((marketsList) => {
+      if (marketsList.count>0) {
+        updateTopMarketsList(marketsList, date);
+      } else {
+        date.setDate(date.getDate() - 1);
+        updateTopMarkets(date)
+      }
+    });
+  }
 
   $(function () {
     initTheme();
@@ -298,8 +316,13 @@ function printWallet(side) {
 
     updateCurrentTransactionCost();
 
-    updateTopCurrencies();
-    updateTopMarkets();
+    var date1 = new Date();
+    date1.setDate(date1.getDate() - 1);
+    updateTopCurrencies(date1);
+
+    var date2 = new Date();
+    date2.setDate(date2.getDate() - 1);
+    updateTopMarkets(date2);
 
     // getAccountBalances(account);
 
