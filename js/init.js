@@ -27,7 +27,12 @@ function printWallet(side) {
 
   config.xrplCurrentTransactionCost = undefined;
 
+  config.baseCurrencyImgUrl = {};
   config.baseCurrencySvg = {};
+
+  config.domainImg = {
+    'bitstamp.net': '<img src="https://pbs.twimg.com/profile_images/1389914916929290242/8SNnPAH7.jpg" />'
+  };
 
   /**
    * set current account using an hardcoded
@@ -123,10 +128,12 @@ function printWallet(side) {
   function appendTopMarketsListRoot(marketInfo, pos) {
     var topMarketsListRoot = $('#top-markets-list');
 
+    var domainImg = config.domainImg[marketInfo.settings.domain] || '';
+
     topMarketsListRoot.append(
       `<li class="collection-item avatar">
         <i class="material-icons circle">account_balance</i>
-        <span class="title">${thousands_separators(Math.round(marketInfo.market.avg_base_volume * 100) / 100)} ${marketInfo.market.base_currency} <span class="currency-symbol">${config.baseCurrencySvg[marketInfo.currencySvg] || ''}</span> by ${marketInfo.settings.domain || 'an unknown issuer'}</span>
+        <span class="title">${thousands_separators(Math.round(marketInfo.market.avg_base_volume * 100) / 100)} ${marketInfo.market.base_currency} <span class="currency-symbol">${config.baseCurrencyImgUrl[marketInfo.currencySvg] || config.baseCurrencySvg[marketInfo.currencySvg] || ''}</span> by ${marketInfo.settings.domain || 'an unknown issuer'} ${domainImg} </span>
         <p>
         Wallet : ${thousands_separators(Math.round(marketInfo.info.xrpBalance))} XRP (${thousands_separators(api.xrpToDrops(marketInfo.info.xrpBalance))} drops <i class="fas fa-arrow-right"></i> ${thousands_separators(Math.round(marketInfo.info.xrpBalance / config.xrplCurrentTransactionCost))} transactions)
               <br/>
@@ -160,14 +167,21 @@ function printWallet(side) {
       marketInfo.currencySvg = market.base_currency + ".svg";
 
       if (!config.baseCurrencySvg[marketInfo.currencySvg]) {
-        $.get({
-          url: "https://data.ripple.com/v2/currencies/" + marketInfo.currencySvg,
-          dataType: 'text',
-          async: false
-        }).then((svg) => {
-          config.baseCurrencySvg[marketInfo.currencySvg] = svg;
+
+        if (marketInfo.currencySvg=='CSC.svg') {
+          config.baseCurrencyImgUrl[marketInfo.currencySvg] = '<img src="https://pbs.twimg.com/profile_images/1393645775276724225/4TzZCAme.jpg" />';
           appendTopMarketsListRoot(marketInfo, pos + 1);
-        });
+        } else {
+          $.get({
+            url: "https://data.ripple.com/v2/currencies/" + marketInfo.currencySvg,
+            dataType: 'text',
+            async: false
+          }).then((svg) => {
+            config.baseCurrencySvg[marketInfo.currencySvg] = svg;
+            appendTopMarketsListRoot(marketInfo, pos + 1);
+          });
+        }
+
       } else {
         return true;
       }
@@ -186,10 +200,12 @@ function printWallet(side) {
   function appendTopCurrenciesListRoot(currencyIssuerAccountInfoSettings, pos) {
     var topCurrenciesListRoot = $('#top-currencies-list');
 
+    var domainImg = config.domainImg[currencyIssuerAccountInfoSettings.settings.domain] || '';
+
     topCurrenciesListRoot.append(
       `<li class="collection-item avatar">
         <i class="material-icons circle">account_balance</i>
-        <span class="title">${currencyIssuerAccountInfoSettings.currency.currency} <span class="currency-symbol">${config.baseCurrencySvg[currencyIssuerAccountInfoSettings.currencySvg] || ''}</span> by ${currencyIssuerAccountInfoSettings.settings.domain || 'an unknown issuer'}</span>
+        <span class="title">${currencyIssuerAccountInfoSettings.currency.currency} <span class="currency-symbol">${config.baseCurrencyImgUrl[currencyIssuerAccountInfoSettings.currencySvg] || config.baseCurrencySvg[currencyIssuerAccountInfoSettings.currencySvg] || ''}</span> by ${currencyIssuerAccountInfoSettings.settings.domain || 'an unknown issuer'} ${domainImg}</span>
         <p>
         Wallet : ${thousands_separators(Math.round(currencyIssuerAccountInfoSettings.info.xrpBalance))} XRP (${thousands_separators(api.xrpToDrops(currencyIssuerAccountInfoSettings.info.xrpBalance))} drops <i class="fas fa-arrow-right"></i> ${thousands_separators(Math.round(currencyIssuerAccountInfoSettings.info.xrpBalance / config.xrplCurrentTransactionCost))} transactions)
               <br/>
@@ -219,18 +235,22 @@ function printWallet(side) {
     }).then((objects) => {
       currencyIssuerAccountInfoSettings.objects = objects;
     }).then(() => {
-      // var blackListedIssuers = [];
       currencyIssuerAccountInfoSettings.currencySvg = currency.currency + ".svg";
 
-      if (!config.baseCurrencySvg[currencyIssuerAccountInfoSettings.currencySvg]) {
-        $.get({
-          url: "https://data.ripple.com/v2/currencies/" + currencyIssuerAccountInfoSettings.currencySvg,
-          dataType: 'text',
-          async: false
-        }).then((svg) => {
-          config.baseCurrencySvg[currencyIssuerAccountInfoSettings.currencySvg] = svg;
+      if (!config.baseCurrencySvg[currencyIssuerAccountInfoSettings.currencySvg] && !config.baseCurrencyImgUrl[currencyIssuerAccountInfoSettings.currencySvg]) {
+        if (currencyIssuerAccountInfoSettings.currencySvg=='CSC.svg') {
+          config.baseCurrencyImgUrl[currencyIssuerAccountInfoSettings.currencySvg] = '<img src="https://pbs.twimg.com/profile_images/1393645775276724225/4TzZCAme.jpg" />';
           appendTopCurrenciesListRoot(currencyIssuerAccountInfoSettings, pos + 1);
-        });
+        } else {
+          $.get({
+            url: "https://data.ripple.com/v2/currencies/" + currencyIssuerAccountInfoSettings.currencySvg,
+            dataType: 'text',
+            async: false
+          }).then((svg) => {
+            config.baseCurrencySvg[currencyIssuerAccountInfoSettings.currencySvg] = svg;
+            appendTopCurrenciesListRoot(currencyIssuerAccountInfoSettings, pos + 1);
+          });
+        }
       }
       else {
         return true;
